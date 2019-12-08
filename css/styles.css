@@ -1,0 +1,68 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.ml-1 {
+    margin-left: 1em;
+}
+.ml-2 {
+    margin-left: 2em;
+}
+.ml-3 {
+    margin-left: 3em;
+}
+.mr-1 {
+    margin-right: 1em;
+}
+.mr-2 {
+    margin-right: 2em;
+}
+.mr-3 {
+    margin-right: 3em;
+}
+.container {
+    display: flex;
+    flex-flow: row wrap;
+    /*background-color: red;*/
+    justify-content: space-between;
+    padding: 0 4em;
+}
+.row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.row>.col-m {
+    flex-basis: 100%;
+}
+.el {
+    flex-basis: 25%;
+    /*background-color: yellow;*/
+    margin: 1em;
+}
+
+.col {
+    flex-basis: 25%;
+    /*background: green;*/
+}
+
+.add-circle {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.4em;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #537ec5;
+    box-shadow: 1px 1px 3px -6px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
