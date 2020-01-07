@@ -5,7 +5,8 @@
 .today-col {
     height: 80vh;
     /*background-color: #c2cad0;*/
-    background-color: #bcd7f5;
+    /*background-color: #bcd7f5;*/
+    background-color: #d6eaff;
     border: 1px solid rgba(0, 0, 0, 0.25);
     border-radius: 3px;
     box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.3);
@@ -20,12 +21,27 @@
     margin-top: 0.9em;
 }
 
-.add-circle {
+button.category-btn {
+    border: 1px solid #4d4d4d;
+    padding: 0.5em 1em;
+    margin: 0;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 3px;
+    color: #4d4d4d;
+    font-size: 1em;
+    box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.3);
+    transition: 300ms;
+}
+button.category-btn:hover {
+    background-color: rgba(0,0,0,0.15);
+}
+
+.new-log-btn {
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 30px;
-    height: 30px;
+    width: 60px;
+    height: 60px;
     text-align: center;
     vertical-align: middle;
     font-size: 1.4em;
@@ -34,6 +50,12 @@
     border-radius: 50%;
     color: #fff;
     background-color: #537ec5;
-    box-shadow: 1px 1px 3px -6px rgba(0,0,0,0.5);
+    box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);
     cursor: pointer;
+}
+.new-log-btn i {
+    display: inline-block;
+    font-size: 1.3em;
+    position: relative;
+    top: 15px;
 }
