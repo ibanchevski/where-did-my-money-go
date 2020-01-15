@@ -9,6 +9,7 @@
 		categories.forEach(displayCategory)
 	}
 
+	// Adding category
 	document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
 		const newCategoryName = newCategories.options[newCategories.selectedIndex].value;
 		console.log(newCategoryName);
@@ -27,11 +28,35 @@
 })();
 
 function displayCategory(categoryName) {
+	// TODO: Check if category exist before adding it
 	const catholder = document.querySelector('.category-holder');
 	const catCol = document.createElement("div");
 	const catTitle = document.createElement('h5');
+	const catDeleteBtn = document.createElement('button');
+
 	catCol.classList.add('col-md-3', 'category');
+	catCol.id = categoryName.toLowerCase();
+	catDeleteBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'delete-cat-btn');
+	catDeleteBtn.addEventListener('click', function() {
+		deleteCategory(catCol.id);
+	});
+
 	catTitle.appendChild(document.createTextNode(categoryName));
+	catDeleteBtn.appendChild(document.createTextNode('Delete'));
     catCol.appendChild(catTitle);
+    catCol.appendChild(catDeleteBtn);
     catholder.appendChild(catCol);
+}
+
+function deleteCategory(id) {
+	const category = document.querySelector('#' + id);
+	category.remove();
+
+	let categories = JSON.parse(window.localStorage.getItem('categories'));
+	let updatedCategories = categories.filter(function(cat) {
+		return cat.toLowerCase() !== id;
+	});
+
+	window.localStorage.setItem('categories', JSON.stringify(updatedCategories));
+	updatedCategories.forEach(displayCategory);
 }
