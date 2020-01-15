@@ -4,20 +4,29 @@
 
 	let categories = db.getItem('categories');
 	if (categories) {
-		categories = categories.split(',').filter(cat => cat !== "null");
+		categories = JSON.parse(categories);
 		console.log(categories);
-		categories.forEach(displayCategories)
+		categories.forEach(displayCategory)
 	}
 
 	document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
 		const newCategoryName = newCategories.options[newCategories.selectedIndex].value;
 		console.log(newCategoryName);
-		categories += "," + newCategoryName;
-		db.setItem('categories', categories);
+		let categories = db.getItem('categories');
+
+		if (categories) {
+			categories = JSON.parse(categories);
+			categories.push(newCategoryName);
+		} else {
+			categories = [newCategoryName];
+		}
+
+		db.setItem('categories', JSON.stringify(categories));
+		displayCategory(newCategoryName);
 	});
 })();
 
-function displayCategories(categoryName) {
+function displayCategory(categoryName) {
 	const catholder = document.querySelector('.category-holder');
 	const catCol = document.createElement("div");
 	const catTitle = document.createElement('h5');
