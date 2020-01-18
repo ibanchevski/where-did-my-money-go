@@ -28,8 +28,15 @@
 })();
 
 function displayCategory(categoryName) {
-	// TODO: Check if category exist before adding it
 	const catholder = document.querySelector('.category-holder');
+
+	// Don't add category if already exists
+	for (let i = 0; i < catholder.children.length; i++) {
+		if (catholder.children[i].id === categoryName.toLowerCase()) {
+			return;
+		}
+	}
+
 	const catCol = document.createElement("div");
 	const catTitle = document.createElement('h5');
 	const catDeleteBtn = document.createElement('button');
