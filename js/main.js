@@ -22,6 +22,9 @@ document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
 	const categoriesSelect = document.querySelector('#categories');
 	const newCategoryName = categoriesSelect.options[categoriesSelect.selectedIndex].value;
 	console.log(newCategoryName);
+
+	if (newCategoryName === 'Select category') { return }
+
 	let categories = window.localStorage.getItem('categories');
 
 	if (categories) {
@@ -83,10 +86,8 @@ function deleteCategory(id) {
 
 function toggleCustomCategory() {
 	const customCategoryHolder = document.querySelector('.custom-category-holder');
-	if (customCategoryHolder.classList.contains('d-none')) {
-		customCategoryHolder.classList.remove('d-none');
-	} else {
-		customCategoryHolder.classList.add('d-none');
+	customCategoryHolder.classList.toggle('d-none');
+	if (!customCategoryHolder.classList.contains('d-none')) {
 		document.querySelector('#custom-category').value = '';
 	}
 }
