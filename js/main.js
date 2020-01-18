@@ -40,18 +40,23 @@ function displayCategory(categoryName) {
 	const catCol = document.createElement("div");
 	const catTitle = document.createElement('h5');
 	const catDeleteBtn = document.createElement('button');
+	const catEntriesHolder = document.createElement('div');
 
 	catCol.classList.add('col-md-3', 'category');
 	catCol.id = categoryName.toLowerCase();
+
 	catDeleteBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'delete-cat-btn');
 	catDeleteBtn.addEventListener('click', function() {
 		deleteCategory(catCol.id);
 	});
 
+	catEntriesHolder.classList.add('category-entries-holder');
+
 	catTitle.appendChild(document.createTextNode(categoryName));
 	catDeleteBtn.appendChild(document.createTextNode('Delete'));
     catCol.appendChild(catTitle);
     catCol.appendChild(catDeleteBtn);
+    catCol.appendChild(catEntriesHolder);
     catholder.appendChild(catCol);
 }
 
