@@ -21,13 +21,20 @@
                 <h5>New category</h5>
                 <select id="categories">
                     <option>Select category</option>
-                    <option><i class="fas fa-utensils"></i> Food</option>
-                    <option><i class="fas fa-utensils"></i> Car</option>
-                    <option><i class="fas fa-utensils"></i> Home</option>
-                    <option><i class="fas fa-utensils"></i> Transport</option>
-                    <option><i class="fas fa-utensils"></i> Health</option>
+                    <option>Food</option>
+                    <option>Car</option>
+                    <option>Home</option>
+                    <option>Transport</option>
+                    <option>Health</option>
                 </select>
                 <button type="button" class="category-btn" id="add-cat-btn">Add Category</button>
+                <button type="button" class="category-btn" onclick="toggleCustomCategory()">
+                    Create custom category
+                </button>
+            </div>
+            <div class="col-md-12 pl-0 mt-1 d-none custom-category-holder">
+                <input type="text" placeholder="Category name" id="custom-category">
+                <button type="button" onclick="addCustomCategory()">Add</button>
             </div>
         </div>
         <div class="row mt-3 category-holder">

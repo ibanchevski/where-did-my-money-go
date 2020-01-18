@@ -1,6 +1,5 @@
 (function() {
 	const db = window.localStorage;
-	const newCategories = document.querySelector('#categories');
 
 	let categories = db.getItem('categories');
 	if (categories) {
@@ -9,23 +8,32 @@
 		categories.forEach(displayCategory)
 	}
 
-	// Adding category
-	document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
-		const newCategoryName = newCategories.options[newCategories.selectedIndex].value;
-		console.log(newCategoryName);
-		let categories = db.getItem('categories');
-
-		if (categories) {
-			categories = JSON.parse(categories);
-			categories.push(newCategoryName);
-		} else {
-			categories = [newCategoryName];
-		}
-
-		db.setItem('categories', JSON.stringify(categories));
-		displayCategory(newCategoryName);
-	});
+	let customCategories = db.getItem('customcategories');
+	if (customCategories) {
+		customCategories = JSON.parse(customCategories);
+		console.log('custom categories: ');
+		console.log(customCategories);
+		customCategories.forEach(displayCustomCategory);
+	}
 })();
+
+// Adding category
+document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
+	const categoriesSelect = document.querySelector('#categories');
+	const newCategoryName = categoriesSelect.options[categoriesSelect.selectedIndex].value;
+	console.log(newCategoryName);
+	let categories = window.localStorage.getItem('categories');
+
+	if (categories) {
+		categories = JSON.parse(categories);
+		categories.push(newCategoryName);
+	} else {
+		categories = [newCategoryName];
+	}
+
+	window.localStorage.setItem('categories', JSON.stringify(categories));
+	displayCategory(newCategoryName);
+});
 
 function displayCategory(categoryName) {
 	const catholder = document.querySelector('.category-holder');
@@ -71,4 +79,38 @@ function deleteCategory(id) {
 
 	window.localStorage.setItem('categories', JSON.stringify(updatedCategories));
 	updatedCategories.forEach(displayCategory);
+}
+
+function toggleCustomCategory() {
+	const customCategoryHolder = document.querySelector('.custom-category-holder');
+	if (customCategoryHolder.classList.contains('d-none')) {
+		customCategoryHolder.classList.remove('d-none');
+	} else {
+		customCategoryHolder.classList.add('d-none');
+		document.querySelector('#custom-category').value = '';
+	}
+}
+
+function addCustomCategory() {
+	const newCustomCategory = document.querySelector('#custom-category').value;
+	let customCategories = window.localStorage.getItem('customcategories');
+
+	if (customCategories) {
+		customCategories = JSON.parse(customCategories);
+		customCategories.push(newCustomCategory);
+	} else {
+		customCategories = [newCustomCategory];
+	}
+
+	window.localStorage.setItem('customcategories', JSON.stringify(customCategories));
+	
+	displayCustomCategory(newCustomCategory);
+	toggleCustomCategory();
+}
+
+function displayCustomCategory(categoryName) {
+	const category = document.createElement('option');
+
+	category.appendChild(document.createTextNode(categoryName));
+	document.querySelector('#categories').appendChild(category);
 }
