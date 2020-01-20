@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="money manager,money organizer,money tracker">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Where did my money go? | Money manager</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./libs/fontawesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
     <link rel="stylesheet" type="text/css" href="./css/responsive.css">
@@ -13,28 +15,43 @@
     <div class="container-fluid min-vh-100 px-5 pt-3">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="text-center">Where did my money go?</h1>
+                <h1 class="text-center page-title my-3">
+                    Where did my money go?
+                    <br><small class="text-muted">Simple money manager</small>
+                </h1>
             </div>
         </div> 
         <div class="row">
-            <div class="col-md-12 pl-0">
-                <h5>New category</h5>
-                <select id="categories">
-                    <option>Select category</option>
-                    <option>Food</option>
-                    <option>Car</option>
-                    <option>Home</option>
-                    <option>Transport</option>
-                    <option>Health</option>
-                </select>
-                <button type="button" class="category-btn" id="add-cat-btn">Add Category</button>
-                <button type="button" class="category-btn" onclick="toggleCustomCategory()">
-                    Create custom category
-                </button>
+            <div class="col-md-4 pl-0">
+                <h5 class="text-muted">Add new category</h5>
+                <div class="input-group">
+                    <select id="categories" class="form-control">
+                        <option>Select category</option>
+                        <option>Food</option>
+                        <option>Car</option>
+                        <option>Home</option>
+                        <option>Transport</option>
+                        <option>Health</option>
+                    </select>
+                    <div class="input-group-append ml-2">
+                        <button type="button" class="category-btn" id="add-cat-btn">Add</button>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-12 pl-0 mt-1 d-none custom-category-holder">
-                <input type="text" placeholder="Category name" id="custom-category">
-                <button type="button" onclick="addCustomCategory()">Add</button>
+        </div>
+        <div class="row">
+            <div class="col-md-4 pl-0 mt-3">
+                <button type="button" class="category-btn" onclick="toggleCustomCategory()">
+                    <i class="fas fa-plus"></i>&nbsp;Create custom category
+                </button>
+                <div class="d-none custom-category-holder mt-3">
+                    <div class="input-group">
+                        <input type="text" placeholder="Category name" class="form-control" id="custom-category">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary" onclick="addCustomCategory()">Add</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row mt-3 category-holder">
@@ -43,19 +60,31 @@
             </div>
         </div>
     </div>
-    <div class="new-log-btn" title="Add record" onclick="addRecord()">
+    <a href="#" class="new-log-btn" title="Add record" onclick="addRecord()">
         <i class="fas fa-plus"></i>
-    </div>
+    </a>
     <div class="add-record-modal">
         <div class="inside">
-            <h4>New record</h4>
-            <input type="number" min="0" id="logAmount">
-            <textarea placeholder="Description" id="logDescription"></textarea>
-            <select id="modal-categories">
-                <option>Select category</option>
-            </select>
-            <button type="button" class="modal-add-btn">Add</button>
-            <button type="button" class="modal-cancel-btn">Cancel</button>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center">New record</h3>
+                    <div class="form-group">
+                        <label for="logAmount">Amount spent:</label>
+                        <input type="number" class="form-control" min="0" value="0" id="logAmount">
+                    </div>
+                    <div class="form-group">
+                        <label for="logDescription">Description (optional)</label>
+                        <textarea placeholder="Description" class="form-control" id="logDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <select id="modal-categories" class="form-control">
+                            <option>Select category</option>
+                        </select>
+                    </div>
+                    <button type="button" class="modal-add-btn">Add</button>
+                    <button type="button" class="modal-cancel-btn">Cancel</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="./js/main.js"></script>
