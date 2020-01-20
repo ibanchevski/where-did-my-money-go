@@ -57,9 +57,38 @@ button.category-btn:hover {
     box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.3);
     cursor: pointer;
 }
+.new-log-btn.disabled {
+    background-color: #8fa2c2;
+    cursor: not-allowed;
+    box-shadow: 0px 0px 2px 1px;
+}
 .new-log-btn i {
     display: inline-block;
     font-size: 1.3em;
     position: relative;
     top: 15px;
+}
+
+.add-record-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.3);
+    transition: 3s;
+}
+.add-record-modal .inside {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+.add-record-modal.visible {
+    display: block;
 }

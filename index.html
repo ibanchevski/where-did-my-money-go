@@ -43,8 +43,20 @@
             </div>
         </div>
     </div>
-    <div class="new-log-btn" title="Add record">
+    <div class="new-log-btn" title="Add record" onclick="addRecord()">
         <i class="fas fa-plus"></i>
+    </div>
+    <div class="add-record-modal">
+        <div class="inside">
+            <h4>New record</h4>
+            <input type="number" min="0" id="logAmount">
+            <textarea placeholder="Description" id="logDescription"></textarea>
+            <select id="modal-categories">
+                <option>Select category</option>
+            </select>
+            <button type="button" class="modal-add-btn">Add</button>
+            <button type="button" class="modal-cancel-btn">Cancel</button>
+        </div>
     </div>
     <script src="./js/main.js"></script>
 </body>
