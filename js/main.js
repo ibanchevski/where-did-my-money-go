@@ -30,10 +30,17 @@
 // Adding category
 document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
 	const categoriesSelect = document.querySelector('#categories');
-	const newCategoryName = categoriesSelect.options[categoriesSelect.selectedIndex].value;
+	let newCategoryName = categoriesSelect.options[categoriesSelect.selectedIndex].value;
 	console.log(newCategoryName);
 
-	if (newCategoryName === 'Select category') { return }
+	if (newCategoryName === 'Select category') {
+		return;
+	}
+
+	// Escape whitespace in category name
+	while (newCategoryName.indexOf(' ') > 0) {
+		newCategoryName = newCategoryName.replace(' ', '-');
+	}
 
 	let categories = window.localStorage.getItem('categories');
 
@@ -63,7 +70,7 @@ function displayCategory(categoryName) {
 	const catTitle = document.createElement('h5');
 	const catDeleteBtn = document.createElement('button');
 
-	catCol.classList.add('col-md-3', 'category');
+	catCol.classList.add('col-md-3', 'category', 'mb-3');
 	catCol.id = categoryName.toLowerCase();
 
 	catDeleteBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'delete-cat-btn');
