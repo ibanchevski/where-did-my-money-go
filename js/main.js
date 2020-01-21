@@ -24,16 +24,11 @@
 	}
 
 	let logs = db.getItem('logs');
-	let totalMonthlyExpense = 0;
 	if (logs) {
 		logs = JSON.parse(logs);
-		logs.forEach(function(log) {
-			displayLog(log);
-			totalMonthlyExpense += parseFloat(log.amount, 10);
-		});
+		logs.forEach(displayLog);
 	}
-	console.log(totalMonthlyExpense);
-	document.querySelector('.monthly-expense').innerHTML = totalMonthlyExpense.toFixed(2);
+	document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
 })();
 
 // Adding category
@@ -113,6 +108,7 @@ function deleteCategory(id) {
 	if (updatedCategories.length === 0) {
 		document.querySelector('.no-categories').classList.remove('d-none');
 	}
+	document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
 }
 
 function toggleCustomCategory() {
@@ -193,6 +189,7 @@ function addRecord() {
 		amount.value = 0;
 		logDescription.value = '';
 		document.querySelector('.modal-error').classList.add('d-none');
+		document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
 	});
 
 	cancelBtn.addEventListener('click', function cancelModal() {
@@ -222,6 +219,22 @@ function saveLog(log) {
 function generateLogID() {
 	const s = ['a', 'b', 'c' ,'d', 'e', 'f', 'g', 'h', 'i', 'j', 'k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 	return s[Math.floor(Math.random() * 26)] + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+function calculateMonthlyExpenses() {
+	let logs = window.localStorage.getItem('logs');
+	let expenses = 0;
+	if (logs) {
+		logs = JSON.parse(logs);
+		let now = new Date();
+		for (let i = 0; i < logs.length; i++) {
+			let logDate = new Date(logs[i].creationDate);
+			if ((logDate.getFullYear() == now.getFullYear()) && (logDate.getMonth() == now.getMonth())) {
+				expenses += parseFloat(logs[i].amount, 10);
+			}
+		}
+	}
+	return expenses.toFixed(2);
 }
 
 function displayLog(log) {
@@ -282,4 +295,5 @@ function removeLog(id) {
 	}
 
 	document.querySelector('#' + id).remove();
+	document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
 }
