@@ -4,7 +4,6 @@
 	let categories = db.getItem('categories');
 	if (categories) {
 		categories = JSON.parse(categories);
-		console.log(categories);
 		categories.forEach(displayCategory)
 		if (categories.length > 0) {
 			document.querySelector('.no-categories').classList.add('d-none');
@@ -15,14 +14,6 @@
 		document.querySelector('.new-log-btn').classList.add('disabled');
 	}
 
-	let customCategories = db.getItem('customcategories');
-	if (customCategories) {
-		customCategories = JSON.parse(customCategories);
-		console.log('custom categories: ');
-		console.log(customCategories);
-		customCategories.forEach(displayCustomCategory);
-	}
-
 	let logs = db.getItem('logs');
 	if (logs) {
 		logs = JSON.parse(logs);
@@ -31,30 +22,43 @@
 	document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
 })();
 
-// Adding category
-document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
-	const categoriesSelect = document.querySelector('#categories');
-	const newCategoryName = categoriesSelect.options[categoriesSelect.selectedIndex].value;
-	console.log(newCategoryName);
+function toggleCustomCategory() {
+	const customCategoryHolder = document.querySelector('.custom-category-holder');
+	customCategoryHolder.classList.toggle('d-none');
+	if (!customCategoryHolder.classList.contains('d-none')) {
+		document.querySelector('#custom-category').value = '';
+	}
+}
 
-	if (newCategoryName === 'Select category') {
+function addCategory() {
+	let categoryName = document.querySelector('#custom-category').value;
+	let categories = window.localStorage.getItem('categories');
+
+	// Escape whitespace in category name
+	while (categoryName.indexOf(' ') > 0) {
+		categoryName = categoryName.replace(' ', '-');
+	}
+
+	if (categories === null || categories === undefined) {
+		categories = [];
+	} else {
+		categories = JSON.parse(categories);
+	}
+
+	if (categories.includes(categoryName)) {
+		document.querySelector('.add-category-error').classList.remove('d-none');
 		return;
 	}
 
-	let categories = window.localStorage.getItem('categories');
-
-	if (categories) {
-		categories = JSON.parse(categories);
-		categories.push(newCategoryName);
-	} else {
-		categories = [newCategoryName];
-	}
-
+	categories.push(categoryName);
 	window.localStorage.setItem('categories', JSON.stringify(categories));
-	displayCategory(newCategoryName);
+	
+	displayCategory(categoryName);
+	toggleCustomCategory();
 	document.querySelector('.new-log-btn').classList.remove('disabled');
 	document.querySelector('.no-categories').classList.add('d-none');
-});
+	document.querySelector('.add-category-error').classList.add('d-none');
+}
 
 function displayCategory(categoryName) {
 	const catholder = document.querySelector('.category-holder');
@@ -107,45 +111,9 @@ function deleteCategory(id) {
 	updatedCategories.forEach(displayCategory);
 	if (updatedCategories.length === 0) {
 		document.querySelector('.no-categories').classList.remove('d-none');
+		document.querySelector('.new-log-btn').classList.add('disabled');
 	}
 	document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
-}
-
-function toggleCustomCategory() {
-	const customCategoryHolder = document.querySelector('.custom-category-holder');
-	customCategoryHolder.classList.toggle('d-none');
-	if (!customCategoryHolder.classList.contains('d-none')) {
-		document.querySelector('#custom-category').value = '';
-	}
-}
-
-function addCustomCategory() {
-	let newCustomCategory = document.querySelector('#custom-category').value;
-	let customCategories = window.localStorage.getItem('customcategories');
-
-	// Escape whitespace in category name
-	while (newCustomCategory.indexOf(' ') > 0) {
-		newCustomCategory = newCustomCategory.replace(' ', '-');
-	}
-
-	if (customCategories) {
-		customCategories = JSON.parse(customCategories);
-		customCategories.push(newCustomCategory);
-	} else {
-		customCategories = [newCustomCategory];
-	}
-
-	window.localStorage.setItem('customcategories', JSON.stringify(customCategories));
-	
-	displayCustomCategory(newCustomCategory);
-	toggleCustomCategory();
-}
-
-function displayCustomCategory(categoryName) {
-	const category = document.createElement('option');
-
-	category.appendChild(document.createTextNode(categoryName));
-	document.querySelector('#categories').appendChild(category);
 }
 
 function addRecord() {
@@ -160,14 +128,12 @@ function addRecord() {
 
 	let dbCategories = window.localStorage.getItem('categories');
 	dbCategories = JSON.parse(dbCategories);
-	
-	if (categories.children.length <= dbCategories.length) {
-		dbCategories.forEach(function(category) {
-			let catNode = document.createElement('option');
-			catNode.appendChild(document.createTextNode(category));
-			categories.appendChild(catNode);
-		});
-	}
+
+	dbCategories.forEach(function(category) {
+		let catNode = document.createElement('option');
+		catNode.appendChild(document.createTextNode(category));
+		categories.appendChild(catNode);
+	});
 
 	newRecordModal.classList.add('visible');
 
@@ -190,11 +156,17 @@ function addRecord() {
 		logDescription.value = '';
 		document.querySelector('.modal-error').classList.add('d-none');
 		document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
+		while (categories.firstChild) {
+			categories.removeChild(categories.firstChild);
+		}
 	});
 
 	cancelBtn.addEventListener('click', function cancelModal() {
 		newRecordModal.classList.remove('visible');
 		cancelBtn.removeEventListener('click', cancelModal);
+		while (categories.firstChild) {
+			categories.removeChild(categories.firstChild);
+		}
 	});
 }
 

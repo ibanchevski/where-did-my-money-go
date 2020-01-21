@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="container-fluid min-vh-100 px-5 pt-3">
-        <div class="row">
+        <div class="row mb-5">
             <div class="col-md-12">
                 <h1 class="text-center page-title my-3">
                     Where did my money go?
@@ -21,35 +21,23 @@
                 </h1>
             </div>
         </div> 
-        <div class="row">
-            <div class="col-md-4 pl-0">
-                <h5 class="text-muted">Add new category</h5>
-                <div class="input-group">
-                    <select id="categories" class="form-control">
-                        <option>Select category</option>
-                    </select>
-                    <div class="input-group-append ml-2">
-                        <button type="button" class="category-btn" id="add-cat-btn">Add</button>
+        <div class="row my-5">
+            <div class="col-md-4 pl-0 mt-3">
+                <button type="button" class="category-btn" onclick="toggleCustomCategory()">
+                    <i class="fas fa-plus"></i>&nbsp;New category
+                </button>
+                <div class="d-none custom-category-holder mt-3">
+                    <p class="text-danger add-category-error d-none">Category already exists!</p>
+                    <div class="input-group">
+                        <input type="text" placeholder="Category name" class="form-control" id="custom-category">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary" onclick="addCategory()">Add</button>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 offset-md-4">
-                <h4 class="mt-5 text-muted">Total monthly expense: <span class="monthly-expense"></span>лв.</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 pl-0 mt-3">
-                <button type="button" class="category-btn" onclick="toggleCustomCategory()">
-                    <i class="fas fa-plus"></i>&nbsp;Custom category
-                </button>
-                <div class="d-none custom-category-holder mt-3">
-                    <div class="input-group">
-                        <input type="text" placeholder="Category name" class="form-control" id="custom-category">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-secondary" onclick="addCustomCategory()">Add</button>
-                        </div>
-                    </div>
-                </div>
+                <h4 class="text-muted mt-3">Total monthly expense: <span class="monthly-expense"></span>лв.</h4>
             </div>
         </div>
         <div class="row mt-3 no-categories">
@@ -57,9 +45,8 @@
                 <h3><i class="far fa-comment-alt"></i> &nbsp;There are no categories listed.</h3>
                 <h6 class="text-muted">You could:</h6>
                 <ol class="text-muted">
-                    <li>Add a custom category to the category list.</li>
-                    <li>Select a category to show.</li>
-                    <li>List the selected category.</li>
+                    <li>Add new category to the category list.</li>
+                    <li>Add entries to already created categories.</li>
                 </ol>
             </div>
         </div>
@@ -94,9 +81,7 @@
                         <textarea placeholder="Description" class="form-control" id="logDescription"></textarea>
                     </div>
                     <div class="form-group">
-                        <select id="modal-categories" class="form-control">
-                            <option>Select category</option>
-                        </select>
+                        <select id="modal-categories" class="form-control"></select>
                     </div>
                     <button type="button" class="modal-add-btn category-btn">Save</button>
                     <button type="button" class="modal-cancel-btn">Cancel</button>
