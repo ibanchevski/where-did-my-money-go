@@ -87,7 +87,16 @@ function deleteCategory(id) {
 		return cat.toLowerCase() !== id;
 	});
 
+	let logs = window.localStorage.getItem('logs');
+	if (logs) {
+		logs = JSON.parse(logs);
+		logs = logs.filter(function(log) {
+			return log.category !== id;
+		});
+	}
+
 	window.localStorage.setItem('categories', JSON.stringify(updatedCategories));
+	window.localStorage.setItem('logs', JSON.stringify(logs));
 	updatedCategories.forEach(displayCategory);
 }
 
