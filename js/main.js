@@ -30,16 +30,11 @@
 // Adding category
 document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
 	const categoriesSelect = document.querySelector('#categories');
-	let newCategoryName = categoriesSelect.options[categoriesSelect.selectedIndex].value;
+	const newCategoryName = categoriesSelect.options[categoriesSelect.selectedIndex].value;
 	console.log(newCategoryName);
 
 	if (newCategoryName === 'Select category') {
 		return;
-	}
-
-	// Escape whitespace in category name
-	while (newCategoryName.indexOf(' ') > 0) {
-		newCategoryName = newCategoryName.replace(' ', '-');
 	}
 
 	let categories = window.localStorage.getItem('categories');
@@ -116,8 +111,13 @@ function toggleCustomCategory() {
 }
 
 function addCustomCategory() {
-	const newCustomCategory = document.querySelector('#custom-category').value;
+	let newCustomCategory = document.querySelector('#custom-category').value;
 	let customCategories = window.localStorage.getItem('customcategories');
+
+	// Escape whitespace in category name
+	while (newCustomCategory.indexOf(' ') > 0) {
+		newCustomCategory = newCustomCategory.replace(' ', '-');
+	}
 
 	if (customCategories) {
 		customCategories = JSON.parse(customCategories);
