@@ -68,6 +68,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="text-center">New record</h3>
+                </div>
+            </div>
+            <div class="row d-none modal-error">
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        Please, fill out all the fileds properly!
+                        <small class="text-muted">(e.g. Amount spent must be >= 0 and category has to selected)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label for="logAmount">Amount spent:</label>
                         <input type="number" class="form-control" min="0" value="0" id="logAmount">

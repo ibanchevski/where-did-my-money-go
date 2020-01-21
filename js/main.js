@@ -150,7 +150,12 @@ function addRecord() {
 		const amount = document.querySelector('#logAmount');
 		const logCategory = categories.options[categories.selectedIndex];
 		const logDescription = document.querySelector('#logDescription');
-		
+
+		if (logCategory.value === 'Select category' || amount.value < 0) {
+			document.querySelector('.modal-error').classList.remove('d-none');
+			return;
+		}
+
 		saveLog({ amount: amount.value, category: logCategory.value.toLowerCase(), description: logDescription.value });
 		
 		newRecordModal.classList.remove('visible');
@@ -158,6 +163,7 @@ function addRecord() {
 		addBtn.removeEventListener('click', addNewLog);
 		amount.value = 0;
 		logDescription.value = '';
+		document.querySelector('.modal-error').classList.add('d-none');
 	});
 
 	cancelBtn.addEventListener('click', function cancelModal() {
