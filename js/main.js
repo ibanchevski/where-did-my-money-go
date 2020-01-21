@@ -24,10 +24,16 @@
 	}
 
 	let logs = db.getItem('logs');
+	let totalMonthlyExpense = 0;
 	if (logs) {
 		logs = JSON.parse(logs);
-		logs.forEach(displayLog);
+		logs.forEach(function(log) {
+			displayLog(log);
+			totalMonthlyExpense += parseFloat(log.amount, 10);
+		});
 	}
+	console.log(totalMonthlyExpense);
+	document.querySelector('.monthly-expense').innerHTML = totalMonthlyExpense.toFixed(2);
 })();
 
 // Adding category
