@@ -1,3 +1,7 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 .page-title {
     font-family: 'Poppins', sans-serif;
     color: #4c85f2;
@@ -50,18 +54,19 @@
 }
 
 button.category-btn {
-    border: 1px solid #4d4d4d;
+    border: none;
+    border-radius: 3px;
     padding: 0.5em 1em;
     margin: 0;
-    background-color: #f5f5f5;
-    border-radius: 3px;
-    color: #4d4d4d;
+    background-color: #4c85f2;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
     font-size: 1em;
     box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.3);
     transition: 300ms;
 }
 button.category-btn:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: #2463db;
 }
 
 .new-log-btn {
@@ -119,7 +124,7 @@ button.category-btn:hover {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 25px;
-    width: 60%;
+    width: 40%;
     border-radius: 3px;
 }
 .add-record-modal.visible {
@@ -130,6 +135,27 @@ button.category-btn:hover {
     color: #4c85f2;
     margin-bottom: 1.2em;
     font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.modal-cancel-btn {
+    border: none;
+    border-radius: 3px;
+    padding: 0.5em 1em;
+    margin: 0;
+    background-color: #f0134d;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.3);
+    transition: 300ms;
+}
+
+.modal-cancel-btn:hover {
+    background-color: #ce0e40;
 }
 
 .log-wrapper {

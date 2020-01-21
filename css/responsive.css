@@ -6,4 +6,8 @@
 	.page-title {
 		font-size: 1.5em;
 	}
+
+	.add-record-modal .inside {
+		width: 80%;
+	}
 }
