@@ -241,7 +241,7 @@ function displayLog(log) {
 	deleteBtn.classList.add('btn', 'btn-sm', 'btn-danger');
 
 	description.appendChild(document.createTextNode(log.description));
-	amount.appendChild(document.createTextNode(parseInt(log.amount).toFixed(2) + ' лв.'));
+	amount.appendChild(document.createTextNode(parseFloat(log.amount).toFixed(2) + ' лв.'));
 	logDate.appendChild(document.createTextNode(new Date(log.creationDate).toUTCString()));
 	deleteBtn.appendChild(deleteBtnIcon);
 
