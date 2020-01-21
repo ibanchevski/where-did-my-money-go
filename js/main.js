@@ -6,6 +6,9 @@
 		categories = JSON.parse(categories);
 		console.log(categories);
 		categories.forEach(displayCategory)
+		if (categories.length > 0) {
+			document.querySelector('.no-categories').classList.add('d-none');
+		}
 	}
 
 	if (!categories || categories.length === 0) {
@@ -49,6 +52,7 @@ document.querySelector('#add-cat-btn').addEventListener('click', function(evt) {
 	window.localStorage.setItem('categories', JSON.stringify(categories));
 	displayCategory(newCategoryName);
 	document.querySelector('.new-log-btn').classList.remove('disabled');
+	document.querySelector('.no-categories').classList.add('d-none');
 });
 
 function displayCategory(categoryName) {
@@ -100,6 +104,9 @@ function deleteCategory(id) {
 	window.localStorage.setItem('categories', JSON.stringify(updatedCategories));
 	window.localStorage.setItem('logs', JSON.stringify(logs));
 	updatedCategories.forEach(displayCategory);
+	if (updatedCategories.length === 0) {
+		document.querySelector('.no-categories').classList.remove('d-none');
+	}
 }
 
 function toggleCustomCategory() {
