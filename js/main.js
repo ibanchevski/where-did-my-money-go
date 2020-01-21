@@ -62,7 +62,6 @@ function displayCategory(categoryName) {
 	const catCol = document.createElement("div");
 	const catTitle = document.createElement('h5');
 	const catDeleteBtn = document.createElement('button');
-	const catEntriesHolder = document.createElement('div');
 
 	catCol.classList.add('col-md-3', 'category');
 	catCol.id = categoryName.toLowerCase();
@@ -72,13 +71,10 @@ function displayCategory(categoryName) {
 		deleteCategory(catCol.id);
 	});
 
-	catEntriesHolder.classList.add('category-entries-holder');
-
 	catTitle.appendChild(document.createTextNode(categoryName));
 	catDeleteBtn.appendChild(document.createTextNode('Delete'));
     catCol.appendChild(catTitle);
     catCol.appendChild(catDeleteBtn);
-    catCol.appendChild(catEntriesHolder);
     catholder.appendChild(catCol);
 }
 
@@ -161,7 +157,6 @@ function addRecord() {
 		newRecordModal.classList.add('hidden');
 		addBtn.removeEventListener('click', addNewLog);
 		amount.value = 0;
-		logCategory.value = '';
 		logDescription.value = '';
 	});
 
@@ -181,9 +176,17 @@ function saveLog(log) {
 	}
 
 	log.creationDate = new Date();
+	log.id = generateLogID();
 	logs.push(log);
 	window.localStorage.setItem('logs', JSON.stringify(logs));
 	displayLog(log);
+}
+
+// Copied modified version of:
+// https://gist.github.com/6174/6062387
+function generateLogID() {
+	const s = ['a', 'b', 'c' ,'d', 'e', 'f', 'g', 'h', 'i', 'j', 'k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+	return s[Math.floor(Math.random() * 26)] + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
 function displayLog(log) {
@@ -191,6 +194,7 @@ function displayLog(log) {
 	const displayedCategories = categoryHolder.children;
 	let category;
 
+	// Find log's category
 	for (let i = 0; i < displayedCategories.length; i++) {
 		if (displayedCategories[i].id === log.category) {
 			category = displayedCategories[i];
@@ -205,6 +209,7 @@ function displayLog(log) {
 	const deleteBtn = document.createElement('button');
 	const deleteBtnIcon = document.createElement('i');
 
+	logWrapper.id = log.id;
 	logWrapper.classList.add('log-wrapper');
 	description.classList.add('log-description');
 	amount.classList.add('log-amount');
@@ -223,4 +228,23 @@ function displayLog(log) {
 	logWrapper.appendChild(description);
 	logWrapper.appendChild(amount);
 	category.appendChild(logWrapper);
+
+	deleteBtn.addEventListener('click', function() {
+		removeLog(log.id);
+	});
+}
+
+function removeLog(id) {
+	let logs = window.localStorage.getItem('logs');
+
+	if (logs) {
+		logs = JSON.parse(logs);
+		logs = logs.filter(function(log) {
+			return log.id !== id;
+		});
+
+		window.localStorage.setItem('logs', JSON.stringify(logs));
+	}
+
+	document.querySelector('#' + id).remove();
 }
