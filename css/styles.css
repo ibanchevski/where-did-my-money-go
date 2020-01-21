@@ -20,6 +20,7 @@
     padding: 0 1.5em;
     margin-right: 1em;
     background-color: #f5f5f5;
+    overflow-y: auto;
 }
 
 .today-col {
@@ -34,11 +35,18 @@
 }
 
 .category h5 {
+    display: inline-block;
     font-size: 1.5em;
     color: #4d4d4d;
     font-weight: bold;
     text-transform: uppercase;
-    margin-top: 0.9em;
+    margin-top: 1em;
+    margin-bottom: 1.2em;
+}
+
+.delete-cat-btn {
+    float: right;
+    margin-top: 1.5em;
 }
 
 button.category-btn {
@@ -122,4 +130,45 @@ button.category-btn:hover {
     color: #4c85f2;
     margin-bottom: 1.2em;
     font-family: 'Roboto', sans-serif;
+}
+
+.log-wrapper {
+    margin: 0.5em 0;
+    padding: 1em;
+    background-color: #fff;
+    border: 1px solid #4c85f2;
+    border-radius: 3px;
+    /*box-shadow: 1px 2px 3px -1px rgba(0,0,0,0.5);*/
+    box-shadow: 2px 2px 9px -3px rgba(0,0,0,0.5);
+    transition: 150ms;
+}
+
+.log-wrapper:hover {
+    transform: translateY(-3px);
+}
+
+.log-wrapper button {
+    float: right;
+}
+
+.log-description {
+    font-size: 1.1em;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 4px;
+}
+
+.log-amount {
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    background-color: #4c85f2;
+    color: #fff;
+    display: inline-block;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+}
+
+.log-date {
+    font-size: 0.8em;
+    text-transform: uppercase;
 }

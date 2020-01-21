@@ -198,9 +198,29 @@ function displayLog(log) {
 		}
 	}
 
-	const logNode = document.createElement('div');
-	logNode.appendChild(document.createTextNode(log.description))
-	logNode.appendChild(document.createTextNode(log.amount))
-	logNode.appendChild(document.createTextNode(log.creationDate))
-	category.appendChild(logNode);
+	const logWrapper = document.createElement('div');
+	const description = document.createElement('div');
+	const amount = document.createElement('div');
+	const logDate = document.createElement('div');
+	const deleteBtn = document.createElement('button');
+	const deleteBtnIcon = document.createElement('i');
+
+	logWrapper.classList.add('log-wrapper');
+	description.classList.add('log-description');
+	amount.classList.add('log-amount');
+	logDate.classList.add('log-date');
+	deleteBtnIcon.classList.add('far', 'fa-trash-alt');
+	deleteBtn.type = "button";
+	deleteBtn.classList.add('btn', 'btn-sm', 'btn-danger');
+
+	description.appendChild(document.createTextNode(log.description));
+	amount.appendChild(document.createTextNode(parseInt(log.amount).toFixed(2) + ' лв.'));
+	logDate.appendChild(document.createTextNode(new Date(log.creationDate).toUTCString()));
+	deleteBtn.appendChild(deleteBtnIcon);
+
+	logWrapper.appendChild(logDate);
+	logWrapper.appendChild(deleteBtn);
+	logWrapper.appendChild(description);
+	logWrapper.appendChild(amount);
+	category.appendChild(logWrapper);
 }
