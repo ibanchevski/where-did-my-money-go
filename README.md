@@ -15,5 +15,5 @@ Bootstrap4 is used for the layout.
 
 ### Future TODOs
 - [x] Add images to the README
-- [] Support diferrent currencies
-- [] Categories reordering
+- [ ] Support diferrent currencies
+- [ ] Categories reordering
