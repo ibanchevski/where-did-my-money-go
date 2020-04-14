@@ -8,9 +8,9 @@ The functionality is entirely built with vanilla JavaScript.
 There is no database (yet) - all data is stored in localStorage.
 Bootstrap4 is used for the layout.
 
-![example image 1](./images/example1)
-![example image 2](./images/example2)
-![example image 3](./images/example3)
+![example image 1](https://github.com/ibanchevski/where-did-my-money-go/tree/master/images/example1.png)
+![example image 2](https://github.com/ibanchevski/where-did-my-money-go/tree/master/images/example2.png)
+![example image 3](https://github.com/ibanchevski/where-did-my-money-go/tree/master/images/example3.png)
 
 
 ### Future TODOs
