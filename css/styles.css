@@ -1,5 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
+    background-color: #ecf0f1;
 }
 
 @media only screen and (max-width: 480px) {
@@ -25,9 +26,6 @@ body {
 .page-title small {
     text-transform: none;
     font-size: 0.7em;
-}
-.container-fluid {
-    background-color: #ecf0f1;
 }
 
 .no-categories h3 {

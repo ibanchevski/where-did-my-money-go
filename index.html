@@ -5,23 +5,23 @@
     <meta name="keywords" content="money manager,money organizer,money tracker">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Where did my money go? | Money manager</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./libs/fontawesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
 </head>
 <body>
-    <div class="container-fluid min-vh-100 px-5 pt-3">
-        <div class="row mb-5">
-            <div class="col-md-12">
-                <h1 class="text-center page-title my-3">
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-sm">
+                <h1 class="text-center page-title">
                     Where did my money go?
                     <br><small class="text-muted">Simple money manager</small>
                 </h1>
             </div>
         </div> 
-        <div class="row my-5">
-            <div class="col-md-4 pl-0 mt-3">
+        <div class="row">
+            <div class="col-sm">
                 <button type="button" class="category-btn" onclick="toggleCustomCategory()">
                     <i class="fas fa-plus"></i>&nbsp;New category
                 </button>
@@ -35,21 +35,29 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 offset-md-4">
-                <h4 class="text-muted mt-3">Total monthly expense: <span class="monthly-expense"></span>лв.</h4>
+            <div class="col-sm">
+                <h4 class="text-muted mt-3 float-right">
+                    Total monthly expense: <span class="monthly-expense"></span>лв.
+                </h4>
             </div>
         </div>
-        <div class="row mt-3 no-categories">
-            <div class="col-md-4 offset-md-4 mt-5">
-                <h3><i class="far fa-comment-alt"></i> &nbsp;There are no categories listed.</h3>
-                <h6 class="text-muted">You could:</h6>
-                <ol class="text-muted">
-                    <li>Add new category to the category list.</li>
-                    <li>Add entries to already created categories.</li>
-                </ol>
+    </div>
+    <div class="container py-5">
+        <div class="row no-categories">
+            <div class="col-sm-6 offset-lg-3">
+                <div class="d-flex align-items-center justify-content-center flex-column">
+                    <h3><i class="far fa-comment-alt"></i> &nbsp;There are no categories listed.</h3>
+                    <div>
+                        <h6 class="text-muted">You could:</h6>
+                        <ol class="text-muted">
+                            <li>Add new category to the category list.</li>
+                            <li>Add entries to already created categories.</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row mt-3 category-holder"></div>
+        <div class="row category-holder"></div>
     </div>
     <a href="#" class="new-log-btn" title="Add record" onclick="addRecord()">
         <i class="fas fa-plus"></i>

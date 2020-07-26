@@ -74,7 +74,7 @@ function displayCategory(categoryName) {
 	const catTitle = document.createElement('h5');
 	const catDeleteBtn = document.createElement('button');
 
-	catCol.classList.add('col-md-3', 'category', 'mb-3');
+	catCol.classList.add('col-sm', 'category', 'mb-3');
 	catCol.id = categoryName.toLowerCase();
 
 	catDeleteBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'delete-cat-btn');
