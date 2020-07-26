@@ -22,17 +22,19 @@
         </div> 
         <div class="row">
             <div class="col-sm">
-                <button type="button" class="category-btn" onclick="toggleCustomCategory()">
+                <button type="button" class="category-btn" id="newCategoryBtn">
                     <i class="fas fa-plus"></i>&nbsp;New category
                 </button>
                 <div class="d-none custom-category-holder mt-3">
                     <p class="text-danger add-category-error d-none">Category already exists!</p>
-                    <div class="input-group">
-                        <input type="text" placeholder="Category name" class="form-control" id="custom-category">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-secondary" onclick="addCategory()">Add</button>
+                    <form id="newCategoryForm">
+                        <div class="input-group">
+                            <input type="text" placeholder="Category name" class="form-control" id="custom-category">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-secondary">Add</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="col-sm">
@@ -59,7 +61,7 @@
         </div>
         <div class="row category-holder"></div>
     </div>
-    <a href="#" class="new-log-btn" title="Add record" onclick="addRecord()">
+    <a href="#" class="new-log-btn" id="addRecordBtn" title="Add record">
         <i class="fas fa-plus"></i>
     </a>
     <div class="add-record-modal">
@@ -96,6 +98,6 @@
             </div>
         </div>
     </div>
-    <script src="./js/main.js"></script>
+    <script src="./js/main.js" type="module"></script>
 </body>
 </html>

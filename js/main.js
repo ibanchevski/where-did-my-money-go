@@ -1,28 +1,29 @@
+'use strict';
+
+import Storage from './Storage.js';
+
 (function() {
-	const db = window.localStorage;
+	const categories = Storage.pull('categories');
+	const logs = Storage.pull('logs');
 
-	let categories = db.getItem('categories');
-	if (categories) {
-		categories = JSON.parse(categories);
-		categories.forEach(displayCategory)
-		if (categories.length > 0) {
-			document.querySelector('.no-categories').classList.add('d-none');
-		}
-	}
-
-	if (!categories || categories.length === 0) {
+	if (categories.length != 0) {
+		document.querySelector('.no-categories').classList.add('d-none');
+	} else {
 		document.querySelector('.new-log-btn').classList.add('disabled');
 	}
 
-	let logs = db.getItem('logs');
-	if (logs) {
-		logs = JSON.parse(logs);
-		logs.forEach(displayLog);
-	}
+	categories.forEach(displayCategory);
+	logs.forEach(displayLog);
 	document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
+	document.querySelector('#newCategoryBtn').addEventListener('click', toggleCustomCategoryInput);
+	document.querySelector('#newCategoryForm').addEventListener('submit', addCategory);
+	document.querySelector('#addRecordBtn').addEventListener('click', addRecord);
+	document.querySelector('.delete-cat-btn').addEventListener('click', function(e) {
+		deleteCategory(this.parentElement.id);
+	});
 })();
 
-function toggleCustomCategory() {
+function toggleCustomCategoryInput() {
 	const customCategoryHolder = document.querySelector('.custom-category-holder');
 	customCategoryHolder.classList.toggle('d-none');
 	if (!customCategoryHolder.classList.contains('d-none')) {
@@ -30,7 +31,8 @@ function toggleCustomCategory() {
 	}
 }
 
-function addCategory() {
+function addCategory(e) {
+	e.preventDefault();
 	let categoryName = document.querySelector('#custom-category').value;
 	let categories = window.localStorage.getItem('categories');
 
@@ -54,7 +56,7 @@ function addCategory() {
 	window.localStorage.setItem('categories', JSON.stringify(categories));
 	
 	displayCategory(categoryName);
-	toggleCustomCategory();
+	toggleCustomCategoryInput();
 	document.querySelector('.new-log-btn').classList.remove('disabled');
 	document.querySelector('.no-categories').classList.add('d-none');
 	document.querySelector('.add-category-error').classList.add('d-none');
@@ -90,24 +92,17 @@ function displayCategory(categoryName) {
 }
 
 function deleteCategory(id) {
-	const category = document.querySelector('#' + id);
-	category.remove();
+	document.querySelector(`#${id}`).remove();
+	
+	const categories = Storage.pull('categories');
+	const updatedCategories = categories.filter(c => c.toLowerCase() !== id);
 
-	let categories = JSON.parse(window.localStorage.getItem('categories'));
-	let updatedCategories = categories.filter(function(cat) {
-		return cat.toLowerCase() !== id;
-	});
+	let categoryLogs = Storage.pull('logs');
+	categoryLogs = categoryLogs.filter(log => log.category !== id);
 
-	let logs = window.localStorage.getItem('logs');
-	if (logs) {
-		logs = JSON.parse(logs);
-		logs = logs.filter(function(log) {
-			return log.category !== id;
-		});
-	}
-
-	window.localStorage.setItem('categories', JSON.stringify(updatedCategories));
-	window.localStorage.setItem('logs', JSON.stringify(logs));
+	Storage.save('categories', updatedCategories);
+	Storage.save('logs', categoryLogs);
+	
 	updatedCategories.forEach(displayCategory);
 	if (updatedCategories.length === 0) {
 		document.querySelector('.no-categories').classList.remove('d-none');
@@ -147,8 +142,17 @@ function addRecord() {
 			return;
 		}
 
-		saveLog({ amount: amount.value, category: logCategory.value.toLowerCase(), description: logDescription.value });
-		
+		const log = {
+			amount: amount.value,
+			category: logCategory.value.toLowerCase(),
+			description: logDescription.value,
+			creationDate: new Date(),
+			id: generateLogID(),
+		}
+
+		saveLog(log);
+		displayLog(log);
+
 		newRecordModal.classList.remove('visible');
 		newRecordModal.classList.add('hidden');
 		addBtn.removeEventListener('click', addNewLog);
@@ -171,19 +175,9 @@ function addRecord() {
 }
 
 function saveLog(log) {
-	let logs = window.localStorage.getItem('logs');
-
-	if (!logs) {
-		logs = [];
-	} else {
-		logs = JSON.parse(logs);
-	}
-
-	log.creationDate = new Date();
-	log.id = generateLogID();
-	logs.push(log);
-	window.localStorage.setItem('logs', JSON.stringify(logs));
-	displayLog(log);
+	const logs = Storage.pull('logs');
+	const newLogs = logs.concat(log);
+	Storage.save('logs', newLogs);
 }
 
 // Copied modified version of:
@@ -194,16 +188,13 @@ function generateLogID() {
 }
 
 function calculateMonthlyExpenses() {
-	let logs = window.localStorage.getItem('logs');
+	const logs = Storage.pull('logs');
 	let expenses = 0;
-	if (logs) {
-		logs = JSON.parse(logs);
-		let now = new Date();
-		for (let i = 0; i < logs.length; i++) {
-			let logDate = new Date(logs[i].creationDate);
-			if ((logDate.getFullYear() == now.getFullYear()) && (logDate.getMonth() == now.getMonth())) {
-				expenses += parseFloat(logs[i].amount, 10);
-			}
+	let now = new Date();
+	for (const log of logs) {
+		const logDate = new Date(log.creationDate);
+		if ((logDate.getFullYear() === now.getFullYear()) && (logDate.getMonth() === now.getMonth())) {
+			expenses += parseFloat(log.amount, 10);
 		}
 	}
 	return expenses.toFixed(2);
@@ -211,61 +202,33 @@ function calculateMonthlyExpenses() {
 
 function displayLog(log) {
 	const categoryHolder = document.querySelector('.category-holder');
-	const displayedCategories = categoryHolder.children;
-	let category;
+	const displayedCategories = [...categoryHolder.children];
+	const category = displayedCategories.find(c => c.id === log.category);
 
-	// Find log's category
-	for (let i = 0; i < displayedCategories.length; i++) {
-		if (displayedCategories[i].id === log.category) {
-			category = displayedCategories[i];
-			break;
-		}
-	}
+	const logTemplate = `
+		<div class="log-wrapper" id="${log.id}">
+			<div class="log-date">${new Date(log.creationDate).toUTCString()}</div>
+			<button type="button" class="btn btn-sm btn-danger">
+				<i class="far fa-trash-alt"></i>
+			</button>
+			<div class="log-description">${log.description}</div>
+			<div class="log-amount">
+				${parseFloat(log.amount).toFixed(2)}лв.
+			</div>
+		</div>
+	`;
 
-	const logWrapper = document.createElement('div');
-	const description = document.createElement('div');
-	const amount = document.createElement('div');
-	const logDate = document.createElement('div');
-	const deleteBtn = document.createElement('button');
-	const deleteBtnIcon = document.createElement('i');
-
-	logWrapper.id = log.id;
-	logWrapper.classList.add('log-wrapper');
-	description.classList.add('log-description');
-	amount.classList.add('log-amount');
-	logDate.classList.add('log-date');
-	deleteBtnIcon.classList.add('far', 'fa-trash-alt');
-	deleteBtn.type = "button";
-	deleteBtn.classList.add('btn', 'btn-sm', 'btn-danger');
-
-	description.appendChild(document.createTextNode(log.description));
-	amount.appendChild(document.createTextNode(parseFloat(log.amount).toFixed(2) + ' лв.'));
-	logDate.appendChild(document.createTextNode(new Date(log.creationDate).toUTCString()));
-	deleteBtn.appendChild(deleteBtnIcon);
-
-	logWrapper.appendChild(logDate);
-	logWrapper.appendChild(deleteBtn);
-	logWrapper.appendChild(description);
-	logWrapper.appendChild(amount);
-	category.appendChild(logWrapper);
-
-	deleteBtn.addEventListener('click', function() {
-		removeLog(log.id);
-	});
+	category.innerHTML += logTemplate;
+	// TODO: Add delete functionality
+	// deleteBtn.addEventListener('click', function() {
+	// 	removeLog(log.id);
+	// });
 }
 
 function removeLog(id) {
-	let logs = window.localStorage.getItem('logs');
-
-	if (logs) {
-		logs = JSON.parse(logs);
-		logs = logs.filter(function(log) {
-			return log.id !== id;
-		});
-
-		window.localStorage.setItem('logs', JSON.stringify(logs));
-	}
-
-	document.querySelector('#' + id).remove();
+	let logs = Storage.pull('logs');
+	logs = logs.filter(log => log.id !== id);
+	Storage.save('logs', logs);
+	document.querySelector(`#${id}`).remove();
 	document.querySelector('.monthly-expense').innerHTML = calculateMonthlyExpenses();
 }
